@@ -9,10 +9,25 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class Consultas {
+    String origen;
+    String destino;
+    float cantidad;
+
+    Consultas(String origen, String destino, float cantidad){
+        this.origen=origen;
+        this.destino=destino;
+        this.cantidad=cantidad;
+    }
+
+
+    public Consultas() {
+        //TODO Auto-generated constructor stub
+    }
+
     public void consulta() {
         try {
             // URL del servicio
-            String url_str = "https://v6.exchangerate-api.com/v6/b61727c05f18dd392af8b5b3/latest/USD"; // Eliminar espacio extra en la URL
+            String url_str = "https://v6.exchangerate-api.com/v6/b61727c05f18dd392af8b5b3/pair/"+origen+"/"+destino+"/"+cantidad; // Eliminar espacio extra en la URL
             URL url = new URL(url_str);
 
             // Abrir la conexión
@@ -25,8 +40,8 @@ public class Consultas {
             JsonObject jsonobj = root.getAsJsonObject();
 
             // Acceder al campo "result"
-            String req_result = jsonobj.get("base_code").getAsString();
-            System.out.println(jsonobj.toString()); 
+            Double req_result = jsonobj.get("conversion_result").getAsDouble();
+            System.out.println(req_result); 
 
         } catch (IOException e) {
             e.printStackTrace();
